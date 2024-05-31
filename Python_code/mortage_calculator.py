@@ -16,6 +16,7 @@ print(f"Welcome {username}, to the online mortgage calculator.\nThis application
 #Mortgage Formula class:
 class Mortgage_Formula: 
     def __init__(self):
+        
         #Principle amount
         ask_principle = input("Amount borrowed(e.g. starting amount) - 'if amount is 100,000 then input 100000 (don't use comma)':\n") 
         #String to number conversion:
@@ -50,6 +51,8 @@ class Mortgage_Formula:
         monthly_payment = fixed_monthly_payment(self, p, monthly_rate, n)
         print(f"Your monthly payment is estimated to be ${monthly_payment}")
         
+        self.monthly_payment = monthly_payment
+        
 #Add Purchase budget formula:
 class Affordability_Calculator:
     def __init__(self):
@@ -61,7 +64,7 @@ class Affordability_Calculator:
         monthly_income = sum(m_i_num)
         
         #sting to int conversion
-        ask_percent = input("What's the percentage that your wiling - Experts recommend spending no more than 25% to 28%  of your monthly income - type in a number :\n")
+        ask_percent = input("What's the percentage that you're wiling to pay from your monthly income. - Experts recommend spending no more than 25% to 28%  of your monthly income - type in a number :\n")
         #string to int conversion
         percent_list = [ask_percent]
         percent_list_n = [eval(i) for i in percent_list]
@@ -70,10 +73,23 @@ class Affordability_Calculator:
         
         def affordability(self):
             afford_total = int(get_percent * monthly_income)
-            print(f"You maybe able to afford a ${afford_total} monthly mortgage payment.")
+            return afford_total
+        afford_payment = affordability(self)
+        print(f"You maybe able to afford a ${afford_payment} monthly mortgage payment.")
         
-        affordability(self)
-
+        self.afford = afford_payment
+        
 mort_for = Mortgage_Formula()
 
 a_cal = Affordability_Calculator()
+
+monthly_payment = mort_for.monthly_payment
+affordable_payment = a_cal.afford
+comparison_dict = {
+    "Monthly Payment": f"${monthly_payment}",
+    "Recommended Payment": f"${affordable_payment}"
+}
+
+print(f"In summary:\n{comparison_dict}")
+
+
